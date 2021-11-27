@@ -3,15 +3,18 @@ package com.example.testapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.testapp.fragment.MyPagerAdapter;
 
 import io.ak1.BubbleTabBar;
 import io.ak1.OnBubbleClickListener;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,12 +26,16 @@ public class MainActivity extends AppCompatActivity {
 
     MyPagerAdapter adapterViewPager;
 
+    private View view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        view=findViewById(R.id.view);
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onBubbleClick(int i) {
 
 
+
                 String strID = new Integer(i).toString();
                 Log.d(TAG, strID);
 
@@ -51,15 +59,25 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.item_file:
                         vpPager.setCurrentItem(0);
+                        changeColorView(0);
+
                         break;
                     case R.id.item_contact:
                         vpPager.setCurrentItem(1);
+                        changeColorView(1);
+
+
                         break;
                     case R.id.item_home:
                         vpPager.setCurrentItem(2);
+                        changeColorView(2);
+
                         break;
 
                 }
+
+
+
 
             }
         });
@@ -89,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-
-
+                changeColorView(position);
             }
 
             // This method will be invoked when the current page is scrolled
@@ -114,6 +131,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private void changeColorView(int tab){
+
+        switch (tab){
+
+            case 0:
+
+              view.setBackgroundResource(R.color.gray2);
+
+                break;
+
+            case 1:
+                view.setBackgroundResource(R.color.cherryLight);
+
+                break;
+            case 2:
+
+                view.setBackgroundResource(R.color.newYellowDark);
+
+                break;
+
+
+
+
+        }
+
+
     }
 
 
